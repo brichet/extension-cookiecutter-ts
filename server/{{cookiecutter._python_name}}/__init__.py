@@ -1,7 +1,7 @@
 import json
 from pathlib import Path
 
-from ._version import __version__{% if cookiecutter.kind.lower() == 'server' %}
+from ._version import __version__{% if cookiecutter._kind.lower() == 'server' %}
 from .handlers import setup_handlers
 {% endif %}
 
@@ -18,12 +18,12 @@ def _jupyter_labextension_paths():
         "src": "labextension",
         "dest": data["name"]
     }]
-{% if cookiecutter.kind.lower() == 'server' %}
+{% if cookiecutter._kind.lower() == 'server' %}
 
 
 def _jupyter_server_extension_points():
     return [{
-        "module": "{{ cookiecutter.python_name }}"
+        "module": "{{ cookiecutter._python_name }}"
     }]
 
 

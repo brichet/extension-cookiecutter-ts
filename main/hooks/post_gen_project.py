@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 from pathlib import Path
+from os import chdir
+from cookiecutter.main import cookiecutter
 
 PROJECT_DIRECTORY = Path.cwd()
 
@@ -18,6 +20,11 @@ def remove_path(path: str) -> None:
 
 
 if __name__ == "__main__":
+
+    context = """
+{{ cookiecutter | jsonify }}
+"""
+    # print(context)
 
     if not "{{ cookiecutter.has_settings }}".lower().startswith("y"):
         remove_path(PROJECT_DIRECTORY / "schema")
@@ -42,3 +49,16 @@ if __name__ == "__main__":
     if not "{{ cookiecutter.has_binder }}".lower().startswith("y"):
         remove_path(PROJECT_DIRECTORY / "binder")
         remove_path(PROJECT_DIRECTORY / ".github/workflows/binder-on-pr.yml")
+
+    if "{{ cookiecutter.kind }}".lower() == "server":
+        print("About server settings :")
+        extra_context = {
+            "_kind": "server",
+            "_python_name": "{{ cookiecutter.python_name }}"
+        }
+
+        cookiecutter("{{ cookiecutter._template }}",
+                     directory="server", 
+                     extra_context=extra_context,
+                     checkout="nested_cookiecutter"
+        )
