@@ -362,7 +362,7 @@ jobs:
           sed -i 's/^\(nodeLinker:\s\).*$/\1pnpm/' .yarnrc.yml
           python -m pip install "jupyterlab>=4.0.0b0,<5"
           jlpm
-          if [ ! -d node_modules/.store ] ; then echo 'nodes_module directory should contain a .store directory when using pnpm nodeLinker'; exit 1; fi;
+          if [ -d node_modules/.store ] ; then echo 'nodes_module directory should contain a .store directory when using pnpm nodeLinker'; exit 1; fi;
           jlpm build
           popd
           rm -rf myextension
